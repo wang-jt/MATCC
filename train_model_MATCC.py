@@ -28,7 +28,7 @@ class TrainConfig:
     model_name = "MATCC_csi800"
     GPU = 0
     universe = 'csi800'
-    seed = 11032  # 11031.13031
+    seed = 11033  # 11031.13031
     dataset_dir_path = "./dataset"
     model_save_path = f"./model_params/{universe}/{model_name}_{seed}"
     metrics_loss_path = f"./metrics/{universe}/{model_name}_{seed}"
@@ -228,11 +228,11 @@ def train():
     universe = TrainConfig.universe  # or 'csi800'
 
     # Please install qlib first before load the data.
-    with open(f'{TrainConfig.dataset_dir_path}/{universe}/{universe}_dl_train_2020_2023.pkl', 'rb') as f:
+    with open(f'{TrainConfig.dataset_dir_path}/{universe}/{universe}_dl_train.pkl', 'rb') as f:
         dl_train = pickle.load(f)
-    with open(f'{TrainConfig.dataset_dir_path}/{universe}/{universe}_dl_valid_2020_2023.pkl', 'rb') as f:
+    with open(f'{TrainConfig.dataset_dir_path}/{universe}/{universe}_dl_valid.pkl', 'rb') as f:
         dl_valid = pickle.load(f)
-    with open(f'{TrainConfig.dataset_dir_path}/{universe}/{universe}_dl_test_2020_2023.pkl', 'rb') as f:
+    with open(f'{TrainConfig.dataset_dir_path}/{universe}/{universe}_dl_test.pkl', 'rb') as f:
         dl_test = pickle.load(f)
     print("Data Loaded.")
 

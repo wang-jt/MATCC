@@ -100,7 +100,8 @@ def _init_data_loader(data, shuffle=True, drop_last=False):
 
 def test():
     universe = TestConfig.universe
-    with open(f'{TestConfig.dataset_dir_path}/{universe}/{universe}_dl_test_2020_2023.pkl', 'rb') as f:
+    with open(f'{TestConfig.dataset_dir_path}/{universe}/{universe}_dl_test.pkl', 'rb') as f:
+    #with open(f'./model_params/MATCC/{universe}/TEST_MATCC_{universe}_seed_11132.pth', 'rb') as f:
         dl_test = pickle.load(f)
     print("Data Loaded.")
 
@@ -153,7 +154,6 @@ def test():
             f.write(f"{name}: {value}\n")
 
     return predictions, labels, metrics
-
 
 if __name__ == "__main__":
     predictions, labels, _ = test()

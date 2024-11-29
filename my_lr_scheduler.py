@@ -54,15 +54,12 @@ class WarmUpScheduler(_LRScheduler):
         if self.epoch is None:
             self.epoch = self.last_epoch + 1
             self.step_in_cycle = self.step_in_cycle + 1
-
         else:
             self.step_in_cycle = self.epoch
-
         self.max_lr = self.base_max_lr
         self.last_epoch = math.floor(self.epoch)
         for param_group, lr in zip(self.optimizer.param_groups, self.get_lr()):
             param_group['lr'] = lr
-
 
 class CosineAnealingWarmRestartsWeightDecay(_LRScheduler):
     """

@@ -5,8 +5,8 @@ from torch.nn.modules.dropout import Dropout
 from torch.nn.modules.normalization import LayerNorm
 import math
 
-from RWKV import Block, RWKV_Init
-from DLinear import DLinear, DLinear_Init
+from .RWKV import Block, RWKV_Init
+from .DLinear import DLinear, DLinear_Init
 
 
 class SAttention(nn.Module):
@@ -143,7 +143,7 @@ class MATCC(nn.Module):
 
         self.layers = nn.Sequential(
             # feature layer
-            nn.Linear(d_feat, d_model),
+            nn.Linear(d_feat, d_model), #[N, T, D]
             self.dlinear,  # 【N,T,D】
             self.rwkv,  # 【N,T,D】
 
@@ -156,16 +156,13 @@ class MATCC(nn.Module):
         )
 
     def forward(self, x):
-        x[N, T, [股票自身的, 市场]]
+        #x[N, T, [股票自身的, 市场]]
         src = x[:, :, :self.gate_input_start_index]  # N, T, D
         gate_input = x[:, :,
                        self.gate_input_start_index:self.gate_input_end_index]
         src = src + self.feature_gate.forward(gate_input)
-
         output = self.layers(src).squeeze(-1)
-
         return output
-
 
 if __name__ == "__main__":
     x_sample = torch.randn((256, 221, 8))
