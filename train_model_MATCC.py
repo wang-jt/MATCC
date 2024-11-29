@@ -12,6 +12,7 @@ from torch.utils.data import Sampler
 from torch.utils.tensorboard import SummaryWriter
 
 from src.MATCC import MATCC
+from src.master import MASTER
 from my_lr_scheduler import ChainedScheduler
 
 # os.environ['CUDA_VISIBLE_DEVICES']="7" # 程序可见的GPU
@@ -74,10 +75,10 @@ class TrainConfig:
     train_stop_loss_threshold = 0.95
     device = torch.device(
         f"cuda:{GPU}" if torch.cuda.is_available() else "cpu")
-
+    beta = 10 if universe == 'csi300' else 5
     # 模型初始化
-    model = MATCC(d_model=d_model, d_feat=d_feat, seq_len=seq_len,
-                  t_nhead=n_head, S_dropout_rate=dropout).to(device)
+    model = MATCC(d_model=d_model, d_feat=d_feat, seq_len=seq_len, t_nhead=n_head, S_dropout_rate=dropout).to(device)
+    #model = MASTER(d_feat=d_feat, d_model=d_model, S_dropout_rate=dropout, T_dropout_rate=dropout, beta=beta).to(device)
 
     train_optimizer = optim.Adam(model.parameters(), lr=lr, betas=(
         0.9, 0.999), weight_decay=weight_decay)

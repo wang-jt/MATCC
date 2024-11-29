@@ -5,7 +5,6 @@ from torch.nn.modules.dropout import Dropout
 from torch.nn.modules.normalization import LayerNorm
 import math
 
-from models.base import SequenceModel
 
 
 class PositionalEncoding(nn.Module):
@@ -201,31 +200,3 @@ class MASTER(nn.Module):
         output = self.layers(src).squeeze(-1)
 
         return output
-
-
-class MASTERModel(SequenceModel):
-    def __init__(
-            self, d_feat: int = 20, d_model: int = 64, t_nhead: int = 4, s_nhead: int = 2, gate_input_start_index=None, gate_input_end_index=None,
-            T_dropout_rate=0.5, S_dropout_rate=0.5, beta=5.0, **kwargs,
-    ):
-        super(MASTERModel, self).__init__(**kwargs)
-        self.d_model = d_model
-        self.d_feat = d_feat
-
-        self.gate_input_start_index = gate_input_start_index
-        self.gate_input_end_index = gate_input_end_index
-
-        self.T_dropout_rate = T_dropout_rate
-        self.S_dropout_rate = S_dropout_rate
-        self.t_nhead = t_nhead
-        self.s_nhead = s_nhead
-        self.beta = beta
-
-        self.init_model()
-
-    def init_model(self):
-        self.model = MASTER(d_feat=self.d_feat, d_model=self.d_model, t_nhead=self.t_nhead, s_nhead=self.s_nhead,
-                                   T_dropout_rate=self.T_dropout_rate, S_dropout_rate=self.S_dropout_rate,
-                                   gate_input_start_index=self.gate_input_start_index,
-                                   gate_input_end_index=self.gate_input_end_index, beta=self.beta)
-        super(MASTERModel, self).init_model()
