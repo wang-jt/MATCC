@@ -145,7 +145,7 @@ class MATCC(nn.Module):
             # feature layer
             nn.Linear(d_feat, d_model), #[N, T, D]
             self.dlinear,  # 【N,T,D】
-            self.rwkv,  # 【N,T,D】
+            self.rwkv,  # 【N,T,D】 #(T attention)
 
             SAttention(d_model=d_model, nhead=s_nhead,
                        dropout=S_dropout_rate),  # [T,N,D]
